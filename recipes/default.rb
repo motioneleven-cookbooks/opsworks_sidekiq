@@ -13,8 +13,8 @@ node[:deploy].each do |application, deploy|
       :env => {'RAILS_ENV' => deploy[:rails_env]},
       :uid => deploy[:user],
       :dir => File.join(deploy[:deploy_to], 'current'),
-      :start_command => "cd #{File.join(deploy[:deploy_to], 'current')}; bundle exec sidekiq -P #{pid_file}",
-      :stop_command => "cd #{File.join(deploy[:deploy_to], 'current')}; bundle exec sidekiqctl stop #{pid_file} 60",
+      :start => "cd #{File.join(deploy[:deploy_to], 'current')}; bundle exec sidekiq -e #{deploy[:rails_env]} -P #{pid_file} 2>&1 | logger -t sidekiq",
+      :stop => "cd #{File.join(deploy[:deploy_to], 'current')}; bundle exec sidekiqctl stop #{pid_file} 60",
       :pid_file => pid_file,
       :memory_max => (1434 * 1024)
     })
