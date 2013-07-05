@@ -10,7 +10,8 @@ node[:deploy].each do |application, deploy|
     variables({
       :name => 'sidekiq',
       :group => 'workers',
-      :env => {'RAILS_ENV' => 'production'},
+      :env => {'RAILS_ENV' => deploy[:rails_env]},
+      :uid => deploy[:user],
       :start_command => "cd #{File.join(deploy[:deploy_to], 'current')}; bundle exec sidekiq -d -P #{pid_file}",
       :stop_command => "cd #{File.join(deploy[:deploy_to], 'current')}; bundle exec sidekiqctl stop #{pid_file} 60",
       :pid_file => pid_file,
