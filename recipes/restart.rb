@@ -1,6 +1,9 @@
 node[:deploy].each do |application, deploy|
-  execute 'restart sidekiq' do
-    command 'sleep 1; /usr/bin/god restart workers'
+  bash 'restart sidekiq' do
+    code <<-EOH
+    sleep 1
+    /usr/bin/god restart workers
+    EOH
     environment({
       'PATH' => '/usr/local/bin:/usr/bin'
     })
@@ -12,6 +15,6 @@ node[:deploy].each do |application, deploy|
     block do
       true
     end
-    notifies :run, resources(:execute => 'restart sidekiq'), :delayed
+    notifies :run, resources(:bash => 'restart sidekiq'), :delayed
   end
 end
