@@ -9,6 +9,9 @@ node[:deploy].each do |application, deploy|
   end
 
   ruby_block 'restart sidekiq later' do
+    block do
+      true
+    end
     notifies :run, resources(:execute => 'restart sidekiq'), :delayed
   end
 end
