@@ -1,6 +1,6 @@
 node[:deploy].each do |application, deploy|
   execute 'restart sidekiq' do
-    command '/usr/bin/god restart workers'
+    command 'env > /tmp/env; /usr/bin/god restart workers'
     environment({
       'PATH' => '/usr/local/bin:/usr/bin'
     })
