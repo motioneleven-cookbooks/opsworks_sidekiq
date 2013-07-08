@@ -5,6 +5,13 @@ node[:deploy].each do |application, deploy|
     /usr/bin/god restart workers
     EOH
     user 'root'
-    action :run
+    action :nothing
+  end
+
+  ruby_block 'restart sidekiq later' do
+    block do
+      true
+    end
+    notifies :run, resources(:bash => 'restart sidekiq'), :delayed
   end
 end
