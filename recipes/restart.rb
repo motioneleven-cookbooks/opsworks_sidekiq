@@ -4,9 +4,9 @@ node[:deploy].each do |application, deploy|
     sleep 1
     /usr/bin/god restart workers
     EOH
-    environment({
-      'PATH' => '/usr/local/bin:/usr/bin'
-    })
+    #environment({
+    #  'PATH' => '/usr/local/bin:/usr/bin:/bin'
+    #})
     user 'root'
     action :nothing
   end
